@@ -3,16 +3,18 @@
  * @author jetienne / http://jetienne.com/
  * @author paulirish / http://paulirish.com/
  */
-var MemoryStats = function (){
+var MemoryStats = function (options = {}){
 
 	var msMin	= 100;
 	var msMax	= 0;
 	var GRAPH_HEIGHT = 30;
 	var redrawMBThreshold = GRAPH_HEIGHT;
+	const containerWidth = options.containerWidth || 80;
+	const labelTextPrefix = options.labelTextPrefix || 'Mem: ';
 
 	var container	= document.createElement( 'div' );
 	container.id	= 'stats';
-	container.style.cssText = 'width:80px;height:48px;opacity:0.9;cursor:pointer;overflow:hidden;z-index:10000;will-change:transform;';
+	container.style.cssText = `width:${containerWidth}px;height:48px;opacity:0.9;cursor:pointer;overflow:hidden;z-index:10000;will-change:transform;`;
 
 	var msDiv	= document.createElement( 'div' );
 	msDiv.id	= 'ms';
@@ -27,10 +29,10 @@ var MemoryStats = function (){
 
 	var msGraph	= document.createElement( 'div' );
 	msGraph.id	= 'msGraph';
-	msGraph.style.cssText = 'position:relative;width:74px;height:' + GRAPH_HEIGHT + 'px;background-color:#0f0';
+	msGraph.style.cssText = `position:relative;width:${containerWidth - 3 * 2}px;height:' + GRAPH_HEIGHT + 'px;background-color:#0f0`;
 	msDiv.appendChild( msGraph );
 
-	while ( msGraph.children.length < 74 ) {
+	while (msGraph.children.length < (containerWidth - 3 * 2)) {
 
 		var bar = document.createElement( 'span' );
 		bar.style.cssText = 'width:1px;height:' + GRAPH_HEIGHT + 'px;float:left;background-color:#131';
@@ -109,7 +111,7 @@ var MemoryStats = function (){
 			ms = lastUsedHeap;
 			msMin = Math.min( msMin, ms );
 			msMax = Math.max( msMax, ms );
-			msText.textContent = "Mem: " + bytesToSize(ms, 2);
+			msText.textContent = labelTextPrefix + bytesToSize(ms, 2);
 
 			mbValue	= ms / (1024*1024);
 			

@@ -18,6 +18,6 @@
     });
   };
   
-  script.src = "https://rawgit.com/paulirish/memory-stats.js/master/memory-stats.js";
+  script.src = "https://rawgit.com/xudafeng/memory-stats.js/master/memory-stats.js";
   document.head.appendChild(script);
 })();
